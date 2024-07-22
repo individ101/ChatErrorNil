@@ -1,0 +1,13 @@
+/* 
+  Localizable.strings
+  ChatErrorNill
+
+  Created by Abubakar Bibulatov on 18.07.2024.
+  
+*/
+
+"authTitleLabel" = "Auth";
+"passwordPlaceholder" = "password";
+"authButton" = "Auth";
+"regButton" = "Registration";
+"namePlaceholder" = "Name";
