@@ -18,11 +18,6 @@ class MessageListPresenter: MessageListPresenterProtocol {
     
     init(view: MessageListViewProtocol?) {
         print("Iniir")
-        print("Iniir")
-        print("Iniir")
-        print("Iniir")
-        
-        
         
         self.view = view
         self.users = ChatUser.mockData()
