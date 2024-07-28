@@ -13,6 +13,7 @@ protocol TabBarViewProtocol: AnyObject {
 
 class TabBarView: UITabBarController, TabBarViewProtocol{
     var presenter: TabBarPresenter!
+   
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -20,7 +21,6 @@ class TabBarView: UITabBarController, TabBarViewProtocol{
     }
     func setControllers(views: [UIViewController]) {
         setViewControllers(views, animated: true)
-        
         
     }
 }

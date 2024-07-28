@@ -12,12 +12,19 @@ protocol UserListViewPresenterProtocol: AnyObject {
 }
 
 class UserListViewPresenter: UserListViewPresenterProtocol {
-    var users: [ChatUser]
-    
+    private let userListManager = UserListManager()
     weak var view: UserListViewProtocol?
+    var users: [ChatUser] = []
     
     required init(view: UserListViewProtocol) {
         self.view = view
-        self.users = ChatUser.mockData()
+        
+        
+        userListManager.getAllUsers { [weak self] user in
+            guard let self = self else { return }
+            self.users = user
+            self.view?.reloadTable()
+        }
     }
+    
 }

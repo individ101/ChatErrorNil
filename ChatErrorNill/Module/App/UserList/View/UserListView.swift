@@ -7,7 +7,7 @@
 
 import UIKit
 protocol UserListViewProtocol: AnyObject {
-    
+    func reloadTable()
 }
 
 class UserListView: UIViewController, UserListViewProtocol {
@@ -20,16 +20,35 @@ class UserListView: UIViewController, UserListViewProtocol {
         return $0
     }(UITableView(frame: view.bounds, style: .insetGrouped))
     
+    lazy var signOutButton: UIBarButtonItem = UIBarButtonItem(image: .actions, style: .done, target: self, action: #selector(signOut))
+   
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         title = .localize("userList")
         view.addSubview(tableView)
+        navigationItem.rightBarButtonItem = signOutButton
+    }
+    
+    @objc func signOut() {
+        FirebaseManager.shared.signOut()
+    }
+    
+    func reloadTable() {
+        tableView.reloadData()
     }
 }
 
 extension UserListView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print(presenter.users[indexPath.row].id)
+        
+        let chatItem = ChatItem(convoId: nil, name: presenter.users[indexPath.row].name, otherUserId: presenter.users[indexPath.row].id, date: Date(), lastMessage: nil )
+        
+        let message = Builder.getMessangerView(chatItem: chatItem)
+        
+        navigationController?.pushViewController(message, animated: true)
     }
 }
 

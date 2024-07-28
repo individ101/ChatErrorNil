@@ -42,4 +42,11 @@ class Builder {
         view.presenter = presenter
         return UINavigationController(rootViewController: view)
     }
+    
+    static func getMessangerView(chatItem: ChatItem) -> UIViewController {
+        let view = MessangerView()
+        let presenter = MessengerPresenter(view: view, convoId: chatItem.convoId, otherId: chatItem.otherUserId, name: chatItem.name)
+        view.presenter = presenter
+        return view
+    }
 }

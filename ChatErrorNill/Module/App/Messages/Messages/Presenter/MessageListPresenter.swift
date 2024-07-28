@@ -8,18 +8,29 @@
 import UIKit
 
 protocol MessageListPresenterProtocol: AnyObject {
-    var users: [ChatUser] { get set }
+    var chatList: [ChatItem] { get set }
 }
 
 
 class MessageListPresenter: MessageListPresenterProtocol {
     weak var view: MessageListViewProtocol?
-    var users: [ChatUser]
+    var chatList: [ChatItem]
+    private let messageListManager = MessageListManager()
     
     init(view: MessageListViewProtocol?) {
         print("Iniir")
         
         self.view = view
-        self.users = ChatUser.mockData()
+        self.chatList = []
+        getChatList()
+    }
+    
+    func getChatList() {
+        messageListManager.getChatList { [weak self] chatList in
+            guard let self = self else { return }
+            
+            self.chatList = chatList
+            self.view?.reloadTableView()
+        }
     }
 }

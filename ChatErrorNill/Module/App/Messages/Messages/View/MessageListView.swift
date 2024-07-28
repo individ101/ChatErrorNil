@@ -8,7 +8,7 @@
 import UIKit
 
 protocol MessageListViewProtocol: AnyObject {
-    
+    func reloadTableView()
 }
 
 class MessageListView: UIViewController, MessageListViewProtocol {
@@ -24,22 +24,35 @@ class MessageListView: UIViewController, MessageListViewProtocol {
         super.viewDidLoad()
         view.backgroundColor = .lightGray
         view.addSubview(tableview)
+        hidesBottomBarWhenPushed = true
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        hidesBottomBarWhenPushed = true
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        hidesBottomBarWhenPushed = false
+    }
+    
+    func reloadTableView() {
+        tableview.reloadData()
     }
 }
 
 extension MessageListView: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        presenter.users.count
+        presenter.chatList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell2", for: indexPath)
-        let cellItems = presenter.users[indexPath.row]
+        let chatItems = presenter.chatList[indexPath.row]
         
         var config = cell.defaultContentConfiguration()
-        config.text = cellItems.name
+        config.text = chatItems.name
         config.image = UIImage(systemName: "person.circle.fill")
-        
+        config.secondaryText = chatItems.lastMessage?.truncate(to: 80, ellipsis: false)
         cell.contentConfiguration = config
         
         return cell
@@ -50,6 +63,10 @@ extension MessageListView: UITableViewDataSource {
 
 extension MessageListView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-       print(presenter.users[indexPath.row].id)
+       let chatItem = presenter.chatList[indexPath.row]
+        
+        let messagesController = Builder.getMessangerView(chatItem: chatItem)
+        
+        navigationController?.pushViewController(messagesController, animated: true)
     }
 }

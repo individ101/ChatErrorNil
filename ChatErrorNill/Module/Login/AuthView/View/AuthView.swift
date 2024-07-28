@@ -25,9 +25,14 @@ class AuthView: UIViewController, AuthViewProtocol {
     
     lazy var emailField: UITextField = TextField(fieldPlaceholder: "Email")
     lazy var passwordField: UITextField = TextField(fieldPlaceholder: .localize("passwordPlaceholder"), isPassword: true)
-    lazy var authButton = Button(buttonText: .localize("authButton")) {
-        print("Auth Button")
+    
+    lazy var authButton = Button(buttonText: .localize("authButton")) { [ weak self ] in
+        guard let self = self else { return }
+        
+        let userInfo = UserInfo(email: emailField.text ?? "", password: passwordField.text ?? "")
+        presenter.signIn(userInfo: userInfo)
     }
+    
     lazy var bottomButton = Button(buttonText: .localize("regButton"), buttonColor: .clear, textColor: .white) {
         NotificationCenter.default.post(name: .windowManager, object: nil, userInfo: [String.state: WindowManager.reg])
     }

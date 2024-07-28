@@ -21,7 +21,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
       
         guard let scene = (scene as? UIWindowScene) else { return }
         self.window = UIWindow(windowScene: scene)
-        window?.rootViewController = Builder.getTabView()
+        window?.rootViewController = FirebaseManager.shared.isLogin() ? Builder.getTabView() : Builder.getAuthView()
         window?.makeKeyAndVisible()
     }
     @objc private func windowManager(notification: Notification) {
@@ -37,7 +37,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         case .reg:
             window?.rootViewController = Builder.getRegView()
         case .app:
-            window?.rootViewController = Builder.getTabView()       }
+            window?.rootViewController = Builder.getTabView()  
+        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
