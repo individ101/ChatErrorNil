@@ -1,0 +1,19 @@
+/* 
+  Localizable.strings
+  ChatErrorNill
+
+  Created by Abubakar Bibulatov on 18.07.2024.
+  
+*/
+
+"authTitleLabel" = "Авторизация";
+"regTitleLabel" = "Регистрация";
+"passwordPlaceholder" = "Пароль";
+"regButton" = "Регистрация";
+"regButton1" = "Авторизация";
+"namePlaceholder" = "Имя";
+"authButton" = "Войти";
+
+"userList" = "Пользователи";
+"messageList" = "Сообщения";
+
